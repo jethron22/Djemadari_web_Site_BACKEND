@@ -2,9 +2,9 @@ const router = require('express').Router()
 const bcrypt = require("bcrypt")
 const mongoose = require("mongoose")
 const User = require("../Model/User")
-const Services = require("../Model/services")
+const Services = require("../Model/Services")
 
-router.put("/:id", async (req, res) => {
+router.put("/api/account/update/:id", async (req, res) => {
     try {
         if (req.body.userId === req.params.id) {
             const salt = await bcrypt.genSalt(10)
@@ -23,7 +23,7 @@ router.put("/:id", async (req, res) => {
             res.status(200).json(updateUser)
 
         } else {
-            res.status(401).json("vous pouvez mettre à jour votre compte")
+            res.status(401).json("Compte mis à jour avec succès ")
         }
 
     } catch (error) {
@@ -32,7 +32,7 @@ router.put("/:id", async (req, res) => {
 })
 
 //delete
-router.delete("/:id", async (req, res) => {
+router.delete("/api/account/delete/:id", async (req, res) => {
     if (req.body.userId === req.params.id) {
         
         //delete all services of user and his account
@@ -60,17 +60,19 @@ router.delete("/:id", async (req, res) => {
     }
 })
 
-//get users
+//GET USERS
 
-router.get("/id", async (req, res) => {
+router.get("/api/account/load/:id", async(req,res)=> {
     try {
-        const user = await User.findById(req.params.id)
-        
-        const { password, ...other } = user._doc
-        res.status(200).json(other)
+        const user = await User.findById(req.params.id);
+        const { password, ...others} = user._doc
+        res.status(200).json(others)
     } catch (error) {
-        res.status(400).json({ error })
+        res.status(500).json(error)
     }
 })
+
+
+
 
 module.exports = router
