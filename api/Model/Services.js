@@ -11,7 +11,7 @@ const ServicesSchema = new mongoose.Schema({
         require : true,
         
     },
-    UserName : {
+    userName : {
         type : String ,
         require : true,
         
