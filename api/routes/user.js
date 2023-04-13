@@ -31,8 +31,10 @@ router.put("/api/account/update/:id", async (req, res) => {
     }
 })
 
-//delete
-router.delete("/api/account/delete/:id", async (req, res) => {
+//DELETE
+
+router.delete("/account/delete/:id", async (req, res) => {
+    
     if (req.body.userId === req.params.id) {
         
         //delete all services of user and his account
@@ -62,7 +64,7 @@ router.delete("/api/account/delete/:id", async (req, res) => {
 
 //GET USERS
 
-router.get("/api/account/load/:id", async(req,res)=> {
+router.get("/account/load/:id", async(req,res)=> {
     try {
         const user = await User.findById(req.params.id);
         const { password, ...others} = user._doc
@@ -71,8 +73,5 @@ router.get("/api/account/load/:id", async(req,res)=> {
         res.status(500).json(error)
     }
 })
-
-
-
 
 module.exports = router

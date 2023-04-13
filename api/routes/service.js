@@ -19,7 +19,7 @@ router.post("/services", async (req, res) => {
 
 //UPDATE SERVICES
 
-router.put("/update/services/:id", async (req, res) => {
+router.put("/update/djema/:id", async (req, res) => {
     try {
         const service = await Services.findById(req.params.id);
         if (service.userName === req.body.userName)
@@ -41,35 +41,23 @@ router.put("/update/services/:id", async (req, res) => {
 
 //DELETE SERVICES
 
-router.delete("/services/:id", async (req, res) => {
-    let service
-    try {
-      service = await Services.findById(req.params.id);
-      console.log(service)
-      router.delete("/services/:id", async (req, res) => {
-  let service;
+router.delete("/djema/delete/:id", async(req, res)=> {
   try {
-    service = await Services.findById(req.params.id);
-    if (service.userName === req.body.userName) {
-      await service.delete();
-      res.status(200).json("Votre Djema a été supprimé");
-    } else {
-      res.status(401).json("Vous ne pouvez que supprimer un Djema");
+    const Service = await Services.findById(req.params.id);
+    if(Service.userName === req.params.username) {
+      try {
+        await Service.delete();
+        return res.status(200).json(Service)
+      } catch (error) {
+        res.status(500).json(error)
+      }
+    }else {
+      res.status(401).json("Veuillez seulement supprimer votre djema")
     }
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json(error)
   }
-});
-      if (service.userName === req.body.userName) {
-        await service.delete();
-        res.status(200).json("Votre Djema a été supprimé");
-      } else {
-        return res.status(401).json("Vous ne pouvez que supprimer un Djema"); 
-      }
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  });
+})
 
 //GET SERVICES
 
